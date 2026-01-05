@@ -2,8 +2,6 @@
 #include <iostream>
 using namespace std;
 
-// Print all subsets if there is atleast one subset of set[]
-// with sum equal to given sum
 bool subset_sum_rec(int i, int n, int set[], int targetSum,
 					vector<int>& subset)
 {
