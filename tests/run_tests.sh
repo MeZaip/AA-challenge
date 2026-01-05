@@ -10,7 +10,7 @@ for testfile in $(ls ./*.txt | sort -V); do
     echo "=== Test: $testfile ==="
     for prog in "$PROGRAMS"/*; do
         name=$(basename "$prog")
-        if [[ "$name" == "backtracking" || "$name" == "dynamic" ]]; then
+        if [[ "$name" == "backtracking" || "$name" == "dynamic" || "$name" == "genetic" ]]; then
             echo "Running program: $(basename "$prog")"
             start=$(date +%s%3N)
 
