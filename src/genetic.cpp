@@ -144,7 +144,6 @@ int main(int argc, char **argv) {
     // GA parameters (kept basic)
     int POP = 220;
     int ELITE = 10;
-    int GENERATIONS = 1200;
     double LIMIT = 5.0;          // secunde
     clock_t start_time = clock();
 
@@ -192,11 +191,11 @@ int main(int argc, char **argv) {
         best_sum = sumv[best_i];
     }
 
-    int g;
-    for (g = 0; g < GENERATIONS; g++) {
-        // order by fitness (descending)
+    int g = 0;
+    while (1) {
         double elapsed = (double)(clock() - start_time) / CLOCKS_PER_SEC;
         if (elapsed >= LIMIT) break;
+        g++;
         vector<int> order;
         for (i = 0; i < POP; i++) order.push_back(i);
 
@@ -264,17 +263,17 @@ int main(int argc, char **argv) {
         }
     }
 
-    cout << "Size: " << idxs.size() << "\nIndexes:\n";
+    cout << "Size: " << idxs.size() << "\n\nIndexes:\n\n";
     for (i = 0; i < (int)idxs.size(); i++) {
         if (i) cout << " ";
         cout << idxs[i];
     }
-    cout << "\nSubset: ";
+    cout << "\n\nSubset:\n\n";
     for (i = 0; i < (int)vals.size(); i++) {
         if (i) cout << " ";
         cout << vals[i];
     }
-    cout << "\nSum: " << best_sum << "\n";
+    cout << "\n\nT: " << T << "\nSum: " << best_sum << "\n";
 
     return 0;
 }
