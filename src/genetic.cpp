@@ -273,7 +273,7 @@ int main(int argc, char **argv) {
         if (i) cout << " ";
         cout << vals[i];
     }
-    cout << "\n\nSum: " << best_sum << "\n";
+    cout << "\n\nT: " << T << "\nSum: " << best_sum << "\n";
 
     return 0;
 }
