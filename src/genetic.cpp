@@ -264,17 +264,17 @@ int main(int argc, char **argv) {
         }
     }
 
-    cout << "nr. de numere: " << idxs.size() << "\n\nIndici:\n\n";
+    cout << "Size: " << idxs.size() << "\nIndexes:\n";
     for (i = 0; i < (int)idxs.size(); i++) {
         if (i) cout << " ";
         cout << idxs[i];
     }
-    cout << "\n\nNumere:\n\n";
+    cout << "\nSubset: ";
     for (i = 0; i < (int)vals.size(); i++) {
         if (i) cout << " ";
         cout << vals[i];
     }
-    cout << "\n\n" << best_sum << "\n";
+    cout << "\nSum: " << best_sum << "\n";
 
     return 0;
 }

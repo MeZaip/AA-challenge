@@ -8,7 +8,7 @@ bool subsetSumRec(vector<int>& a, int n, int sum,
 
 	int idx = sum + offset;
 
-	if (idx < 0 || idx >= memo[0].size())
+	if (idx < 0 || idx >= (int)memo[0].size())
 		return false;
 
 	if (n == 0)
@@ -34,7 +34,7 @@ void buildSubset(vector<int>& a, int n, int sum,
 
 	int includeIdx = sum - a[n - 1] + offset;
 
-	if (includeIdx >= 0 && includeIdx < memo[0].size() &&
+	if (includeIdx >= 0 && includeIdx < (int)memo[0].size() &&
 		memo[n - 1][includeIdx] == 1) {
 
 		res.push_back(a[n - 1]);
@@ -72,15 +72,26 @@ bool subsetSum(vector<int>& a, int target, vector<int>& result) {
 	return ok;
 }
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[])
+{
+	if (argc < 2) {
+		cout << "Usage: " << argv[0] << " input.txt\n";
+		return 0;
+	}
 
 	FILE* f = fopen(argv[1], "r");
 	int n, sum;
-	fscanf(f, "%d %d", &n, &sum);
-
+	if (!fscanf(f, "%d %d", &n, &sum)) {
+		cout << "Could not read input file.\n";
+		return 0;
+	}
 	vector<int> a(n);
-	for (int i = 0; i < n; i++)
-		fscanf(f, "%d", &a[i]);
+	for (int i = 0; i < n; i++) {
+		if (!fscanf(f, "%d", &a[i])) {
+			cout << "Could not read input file.\n";
+			return 0;
+		}
+	}
 	fclose(f);
 
 	vector<int> res;

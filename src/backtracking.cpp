@@ -9,7 +9,7 @@ bool subset_sum_rec(int i, int n, int set[], int targetSum,
 	if (targetSum == 0) {
 		cout << "Size: "<<subset.size() << endl;
 		cout << "Subset: ";
-		for (int i = 0; i < subset.size(); i++) {
+		for (int i = 0; i < (int)subset.size(); i++) {
 			cout << subset[i] << " ";
 		}
 		cout << endl;
@@ -43,12 +43,22 @@ bool subset_sum_rec(int i, int n, int set[], int targetSum,
 
 int main(int argc, char* argv[])
 {
+	if (argc < 2) {
+		cout << "Usage: " << argv[0] << " input.txt\n";
+		return 0;
+	}
 	FILE *f = fopen(argv[1], "r");
 	int n, sum;
-	fscanf(f, "%d %d", &n, &sum);
+	if (!fscanf(f, "%d %d", &n, &sum)) {
+		cout << "Could not read input file.\n";
+		return 0;
+	}
 	int *set = (int *)malloc(n * sizeof(int));
 	for (int i = 0; i < n; i++) {
-		fscanf(f, "%d", &set[i]);
+		if(!fscanf(f, "%d", &set[i])) {
+			cout << "Could not read input file.\n";
+			return 0;
+		}
 	}
 	fclose(f);
 	vector<int> subset;

@@ -14,5 +14,8 @@ dynamic: dynamic.cpp
 genetic: genetic.cpp
 	$(CXX) $(CXXFLAGS) -o genetic genetic.cpp
 
+positive: dynamic_positives.cpp
+	$(CXX) $(CXXFLAGS) -o positive dynamic_positives.cpp
+
 clean:
-	rm -f backtracking dynamic genetic
+	rm -f backtracking dynamic genetic positive
