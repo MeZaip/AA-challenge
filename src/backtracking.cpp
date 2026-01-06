@@ -7,7 +7,8 @@ bool subset_sum_rec(int i, int n, int set[], int targetSum,
 {
 	// targetSum is zero then there exist a subset.
 	if (targetSum == 0) {
-		cout << "size: "<<subset.size() << endl;
+		cout << "Size: "<<subset.size() << endl;
+		cout << "Subset: ";
 		for (int i = 0; i < subset.size(); i++) {
 			cout << subset[i] << " ";
 		}
@@ -53,7 +54,9 @@ int main(int argc, char* argv[])
 	vector<int> subset;
 	bool found = subset_sum_rec(0, n, set, sum, subset);
 	if (!found) {
-		cout << "There is no such subset" << endl;
+		cout << "No subset found." << endl;
+	} else {
+		cout << "Sum: " << n << endl;
 	}
 
 	return 0;

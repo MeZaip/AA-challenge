@@ -1,60 +1,99 @@
-// Top-down DP solution.
 #include <bits/stdc++.h>
 using namespace std;
 
-// Recursive function to check if a subset 
-// with the given sum exists
-bool isSubsetSumRec(vector<int>& arr, int n, int sum,
-				   vector<vector<int>> &memo) {
-  
-	// If the sum is zero, we found a subset
-	if (sum == 0)
-		return 1;
+// DP top-down with offset for negative numbers
+bool subsetSumRec(vector<int>& a, int n, int sum,
+				  vector<vector<int>>& memo,
+				  int offset) {
 
-	// If no elements are left
-	if (n <= 0)
-		return 0;
+	int idx = sum + offset;
 
-	// If the value is already computed, return it
-	if (memo[n][sum] != -1)
-		return memo[n][sum];
+	if (idx < 0 || idx >= memo[0].size())
+		return false;
 
-	// If the last element is greater than the sum, ignore it
-	if (arr[n - 1] > sum)
-		return memo[n][sum] = isSubsetSumRec(arr, n - 1, sum, memo);
-	else {
-	  
-		// Include or exclude the last element
-		return memo[n][sum] = isSubsetSumRec(arr, n - 1, sum, memo) ||
-							  isSubsetSumRec(arr, n - 1, sum - arr[n - 1], memo);
+	if (n == 0)
+		return (sum == 0);
+
+	if (memo[n][idx] != -1)
+		return memo[n][idx];
+
+	bool res =
+		subsetSumRec(a, n - 1, sum, memo, offset) ||
+		subsetSumRec(a, n - 1, sum - a[n - 1], memo, offset);
+
+	memo[n][idx] = res;
+	return res;
+}
+
+// Reconstruct the subset from the memo table
+void buildSubset(vector<int>& a, int n, int sum,
+				 vector<vector<int>>& memo,
+				 int offset, vector<int>& res) {
+
+	if (sum == 0 || n == 0) return;
+
+	int includeIdx = sum - a[n - 1] + offset;
+
+	if (includeIdx >= 0 && includeIdx < memo[0].size() &&
+		memo[n - 1][includeIdx] == 1) {
+
+		res.push_back(a[n - 1]);
+		buildSubset(a, n - 1, sum - a[n - 1], memo, offset, res);
+	} else {
+		buildSubset(a, n - 1, sum, memo, offset, res);
 	}
 }
 
-// Function to initiate the subset sum check
-bool isSubsetSum(vector<int>&arr, int sum) {
-   int n = arr.size();
+bool subsetSum(vector<int>& a, int target, vector<int>& result) {
+	int n = a.size();
 
-	vector<vector<int>> memo(n + 1, vector<int>(sum + 1, -1));
-	return isSubsetSumRec(arr, n, sum, memo);
+	// Calculate the offset
+	int minSum = 0, maxSum = 0;
+	for (int x : a) {
+		if (x < 0) minSum += x;
+		else maxSum += x;
+	}
+
+	if (target < minSum || target > maxSum)
+		return false;
+
+	int offset = -minSum;
+	int range = maxSum - minSum + 1;
+
+	vector<vector<int>> memo(n + 1, vector<int>(range, -1));
+
+	memo[0][offset] = 1;
+
+	bool ok = subsetSumRec(a, n, target, memo, offset);
+
+	if (ok)
+		buildSubset(a, n, target, memo, offset, result);
+
+	return ok;
 }
 
 int main(int argc, char* argv[]) {
-  
-	FILE *f = fopen(argv[1], "r");
+
+	FILE* f = fopen(argv[1], "r");
 	int n, sum;
 	fscanf(f, "%d %d", &n, &sum);
-	int *set = (int *)malloc(n * sizeof(int));
-	for (int i = 0; i < n; i++) {
-		fscanf(f, "%d", &set[i]);
-	}
+
+	vector<int> a(n);
+	for (int i = 0; i < n; i++)
+		fscanf(f, "%d", &a[i]);
 	fclose(f);
 
-	vector<int> arr(set, set + n);
-	if (isSubsetSum(arr, sum)) {
-		cout << "True" << endl;
-	}
-	else {
-		cout << "False" << endl;
+	vector<int> res;
+
+	if (subsetSum(a, sum, res)) {
+		cout << "Size: " << res.size() << "\n";
+		cout << "Subset: ";
+		for (int x : res)
+			cout << x << " ";
+		cout << "\n";
+		cout << "Sum: " << n << endl;
+	} else {
+		cout << "No subset found\n";
 	}
 
 	return 0;
