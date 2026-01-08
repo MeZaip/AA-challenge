@@ -66,7 +66,7 @@ int main(int argc, char* argv[])
 	if (!found) {
 		cout << "No subset found." << endl;
 	} else {
-		cout << "Sum: " << n << endl;
+		cout << "T: " << sum << endl;
 	}
 
 	return 0;

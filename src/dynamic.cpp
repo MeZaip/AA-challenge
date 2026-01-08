@@ -102,7 +102,7 @@ int main(int argc, char* argv[])
 		for (int x : res)
 			cout << x << " ";
 		cout << "\n";
-		cout << "Sum: " << n << endl;
+		cout << "T: " << sum << endl;
 	} else {
 		cout << "No subset found\n";
 	}
